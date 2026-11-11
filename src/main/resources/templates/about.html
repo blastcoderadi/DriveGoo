@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('About & Viva Defense Guide')}"></head>
+<body>
+
+  <div th:replace="~{layout/base :: navbar}"></div>
+  <div th:replace="~{layout/base :: alerts}"></div>
+
+  <main class="py-5">
+    <div class="container" style="max-width: 900px;">
+      <!-- Title -->
+      <div class="text-center mb-5">
+        <span class="badge bg-primary-subtle text-primary fw-medium px-3 py-2 rounded-pill mb-2">College Project &bull; Java &amp; OOP</span>
+        <h2 class="fw-bold text-dark">DriveGo – Technical Architecture &amp; Viva Guide</h2>
+        <p class="text-muted">Vehicle Rental Management System (SRM University AP, Second Semester AI &amp; ML)</p>
+      </div>
+
+      <!-- Core Principle -->
+      <div class="card card-custom p-4 bg-primary text-white mb-4">
+        <h5 class="fw-bold mb-2"><i class="bi bi-lightbulb-fill text-warning me-2"></i>Core Design Principle</h5>
+        <p class="mb-0 opacity-90">
+          <strong>Simple Frontend + Strong Java Backend + Meaningful OOP Implementation.</strong><br>
+          Every OOP concept in this project has a practical, real-world purpose in business logic, concurrency control, or data persistence.
+        </p>
+      </div>
+
+      <!-- OOP Breakdown Table -->
+      <div class="card card-custom p-4 bg-white mb-4 border-0 shadow-sm">
+        <h4 class="fw-bold mb-3">1. Java OOP Implementation Mapping</h4>
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle small">
+            <thead class="table-light">
+              <tr>
+                <th>OOP Concept</th>
+                <th>Real-world Implementation in DriveGo</th>
+                <th>Key Classes &amp; Methods</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Encapsulation</strong></td>
+                <td>Private fields with domain validations (e.g. price must be &gt; 0, deposit &ge; 0).</td>
+                <td><code>Vehicle.java</code>, <code>User.java</code>, <code>Booking.java</code></td>
+              </tr>
+              <tr>
+                <td><strong>Abstraction</strong></td>
+                <td>Abstract classes <code>Vehicle</code> and <code>User</code> define common blueprints with abstract methods.</td>
+                <td><code>Vehicle.getVehicleCategory()</code>, <code>Vehicle.calculateCategoryCharge()</code></td>
+              </tr>
+              <tr>
+                <td><strong>Inheritance</strong></td>
+                <td>Hierarchy models real fleet and user roles using JPA <code>SINGLE_TABLE</code> inheritance.</td>
+                <td>
+                  <code>User &rarr; Customer, Admin</code><br>
+                  <code>Vehicle &rarr; Car, Bike, SUV</code>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Polymorphism (Runtime)</strong></td>
+                <td>Dynamic dispatch via <code>PaymentMethod</code> interface and <code>Vehicle</code> hierarchy.</td>
+                <td>
+                  <code>pm.pay(amount)</code> &rarr; <code>UPIPayment</code>, <code>CardPayment</code>, <code>CashPayment</code><br>
+                  <code>vehicle.calculateCategoryCharge(days)</code>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Method Overloading (Compile-time)</strong></td>
+                <td>3 variations of rental calculation based on dates, days, or discounts.</td>
+                <td><code>PricingService.calculatePrice(v, dates)</code>, <code>(v, days)</code>, <code>(v, days, discount)</code></td>
+              </tr>
+              <tr>
+                <td><strong>Interfaces</strong></td>
+                <td>Contract definitions allowing interchangeable implementations (Strategy pattern).</td>
+                <td><code>PaymentMethod</code>, <code>OtpSender</code>, <code>BookingService</code>, <code>PricingService</code></td>
+              </tr>
+              <tr>
+                <td><strong>Exception Handling</strong></td>
+                <td>Custom domain runtime exceptions captured by <code>@ControllerAdvice</code> with friendly UI.</td>
+                <td><code>VehicleNotAvailableException</code>, <code>InvalidBookingException</code>, <code>GlobalExceptionHandler</code></td>
+              </tr>
+              <tr>
+                <td><strong>Static &amp; Final</strong></td>
+                <td>Constants and thread-safe identifier utilities.</td>
+                <td><code>Vehicle.TAX_RATE</code>, <code>MAX_RENTAL_DAYS</code>, <code>BookingCodeGenerator.generate()</code></td>
+              </tr>
+              <tr>
+                <td><strong>Collections Framework</strong></td>
+                <td>Lists, Maps, and Optionals used across repository and service layers.</td>
+                <td><code>LinkedHashMap</code> in <code>PriceBreakdownDTO</code>, <code>Optional&lt;Booking&gt;</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Business Logic Highlights -->
+      <div class="card card-custom p-4 bg-white mb-4 border-0 shadow-sm">
+        <h4 class="fw-bold mb-3">2. Core Business Logic Highlights</h4>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="p-3 border rounded-3 bg-light h-100">
+              <h6 class="fw-bold text-dark"><i class="bi bi-calendar-range text-primary me-2"></i>Date Overlap Availability</h6>
+              <p class="small text-muted mb-0">
+                A booking conflicts iff <code>newPickup &lt; existing.return AND newReturn &gt; existing.pickup</code>.
+                Adjacent rentals (pickup on the same day as previous return) are permitted. Protected by <code>@Lock(PESSIMISTIC_WRITE)</code> against simultaneous double-booking.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 border rounded-3 bg-light h-100">
+              <h6 class="fw-bold text-dark"><i class="bi bi-cash-stack text-success me-2"></i>Strict Server-Side Pricing</h6>
+              <p class="small text-muted mb-0">
+                The frontend is never trusted for monetary amounts. Every total is recalculated on the backend:
+                <code>Total = (dailyPrice &times; days) + categoryCharge + 5% GST + deposit</code>.
+                All money calculations use <code>BigDecimal</code> with <code>RoundingMode.HALF_UP</code>.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 border rounded-3 bg-light h-100">
+              <h6 class="fw-bold text-dark"><i class="bi bi-shield-lock text-warning me-2"></i>Unified Authentication</h6>
+              <p class="small text-muted mb-0">
+                Single "Continue" flow supports Google OAuth2 login and Phone OTP.
+                OTPs are 6-digit codes stored as BCrypt hashes with 5-minute expiry and a 5-attempt limit.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 border rounded-3 bg-light h-100">
+              <h6 class="fw-bold text-dark"><i class="bi bi-speedometer2 text-danger me-2"></i>Admin Fleet Management</h6>
+              <p class="small text-muted mb-0">
+                Role-based authorization prevents customers from accessing <code>/admin/**</code>.
+                Admins can approve/reject bookings, toggle vehicle availability, record late returns, and audit payments.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div th:replace="~{layout/base :: footer}"></div>
+</body>
+</html>
+

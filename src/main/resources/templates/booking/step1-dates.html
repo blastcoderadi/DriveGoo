@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('Select Dates – Step 1')}"></head>
+<body>
+
+  <div th:replace="~{layout/base :: navbar}"></div>
+  <div th:replace="~{layout/base :: alerts}"></div>
+
+  <main class="py-5">
+    <div class="container" style="max-width: 780px;">
+
+      <!-- Step Indicator -->
+      <div class="step-indicator">
+        <div class="step-item active">
+          <span class="step-number">1</span>
+          <span>Dates &amp; Location</span>
+        </div>
+        <div class="step-item">
+          <span class="step-number">2</span>
+          <span>Price Review</span>
+        </div>
+        <div class="step-item">
+          <span class="step-number">3</span>
+          <span>Confirmation</span>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="card card-custom p-4 shadow-sm border-0">
+        <div class="d-flex align-items-center gap-3 pb-3 mb-4 border-bottom">
+          <img th:src="${vehicle.imageUrl != null ? vehicle.imageUrl : '/images/car.svg'}"
+               th:alt="${vehicle.displayName}" style="height: 60px; width: 90px; object-fit: contain;">
+          <div>
+            <h5 class="fw-bold mb-0" th:text="${vehicle.displayName}">Hyundai Creta</h5>
+            <span class="text-muted small" th:text="${vehicle.vehicleCategory}">SUV</span> &bull;
+            <span class="text-primary fw-semibold small">₹<span th:text="${#numbers.formatDecimal(vehicle.pricePerDay, 0, 'COMMA', 0, 'POINT')}">2,500</span>/day</span>
+          </div>
+        </div>
+
+        <h4 class="fw-bold mb-3">Step 1: Choose Your Rental Dates</h4>
+
+        <!-- Error Message if any -->
+        <div th:if="${availabilityError}" class="alert alert-danger py-2 px-3 small d-flex align-items-center mb-3">
+          <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+          <span th:text="${availabilityError}">Dates not available.</span>
+        </div>
+
+        <form th:action="@{/booking/preview}" method="post" th:object="${bookingDTO}">
+          <input type="hidden" th:field="*{vehicleId}">
+          <input type="hidden" name="paymentMethod" value="UPI">
+
+          <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger py-2 px-3 small mb-3">
+            <i class="bi bi-exclamation-circle-fill me-1"></i>
+            <span>Please check the input fields:</span>
+            <ul class="mb-0 ps-3 mt-1">
+              <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Error</li>
+            </ul>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small">Pickup Date <span class="text-danger">*</span></label>
+              <input type="date" th:field="*{pickupDate}" class="form-control" required id="pickupDate"
+                     th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">
+              <div class="form-text small">Vehicle pickup starts from this date.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small">Return Date <span class="text-danger">*</span></label>
+              <input type="date" th:field="*{returnDate}" class="form-control" required id="returnDate">
+              <div class="form-text small">Must be after pickup (max 30 days).</div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold small">Pickup &amp; Drop Location <span class="text-danger">*</span></label>
+            <select th:field="*{pickupLocation}" class="form-select" required>
+              <option value="">Select a pickup hub...</option>
+              <option value="SRM University AP Campus Hub">SRM University AP Campus Hub</option>
+              <option value="Vijayawada Airport (VGA)">Vijayawada Airport (VGA)</option>
+              <option value="Vijayawada Railway Station">Vijayawada Railway Station</option>
+              <option value="Guntur City Center">Guntur City Center</option>
+              <option value="Amaravati Main Hub">Amaravati Main Hub</option>
+            </select>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+            <a th:href="@{/vehicles/{id}(id=${vehicle.id})}" class="btn btn-outline-secondary">
+              <i class="bi bi-arrow-left me-1"></i> Back
+            </a>
+            <button type="submit" class="btn btn-primary-custom px-4">
+              Review Price Breakdown <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <div th:replace="~{layout/base :: footer}"></div>
+
+  <script>
+    // Automatically set minimum return date when pickup is selected
+    const pickupInput = document.getElementById('pickupDate');
+    const returnInput = document.getElementById('returnDate');
+    if (pickupInput && returnInput) {
+      pickupInput.addEventListener('change', function() {
+        if (pickupInput.value) {
+          const nextDay = new Date(pickupInput.value);
+          nextDay.setDate(nextDay.getDate() + 1);
+          returnInput.min = nextDay.toISOString().split('T')[0];
+          if (!returnInput.value || returnInput.value <= pickupInput.value) {
+            returnInput.value = nextDay.toISOString().split('T')[0];
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+

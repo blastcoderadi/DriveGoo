@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('Customer Directory – Admin')}"></head>
+<body>
+
+  <div th:replace="~{layout/base :: navbar}"></div>
+  <div th:replace="~{layout/base :: alerts}"></div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-3 col-lg-2 d-md-block admin-sidebar collapse">
+        <div class="position-sticky pt-3">
+          <h6 class="sidebar-heading px-3 mt-2 mb-3 text-uppercase text-secondary small fw-bold">Admin Portal</h6>
+          <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" th:href="@{/admin/dashboard}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/admin/vehicles}"><i class="bi bi-car-front"></i> Manage Vehicles</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/admin/bookings}"><i class="bi bi-calendar2-range"></i> Manage Bookings</a></li>
+            <li class="nav-item"><a class="nav-link active" th:href="@{/admin/customers}"><i class="bi bi-people"></i> Customers</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/admin/payments}"><i class="bi bi-credit-card"></i> Payments</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/admin/reports}"><i class="bi bi-bar-chart"></i> Reports</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <h2 class="fw-bold mb-1">Customer Directory</h2>
+            <p class="text-muted small mb-0">Registered customers and their authentication channels</p>
+          </div>
+          <form th:action="@{/admin/customers}" method="get" class="d-flex gap-2">
+            <input type="text" name="search" th:value="${search}" class="form-control form-control-sm" placeholder="Search by name or email...">
+            <button type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-search"></i></button>
+          </form>
+        </div>
+
+        <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light small">
+                <tr>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Auth Method</th>
+                  <th>Joined Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody class="small">
+                <tr th:each="c : ${customers}">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                        <i class="bi bi-person"></i>
+                      </div>
+                      <strong class="text-dark" th:text="${c.fullName}">Aditya Kumar</strong>
+                    </div>
+                  </td>
+                  <td th:text="${c.email != null ? c.email : '—'}">user@example.com</td>
+                  <td th:text="${c.phone != null ? '+91 ' + c.phone : '—'}">+91 9876543210</td>
+                  <td>
+                    <span th:if="${c.authProvider.name() == 'GOOGLE'}" class="badge bg-danger-subtle text-danger"><i class="bi bi-google me-1"></i>Google</span>
+                    <span th:if="${c.authProvider.name() == 'PHONE'}" class="badge bg-primary-subtle text-primary"><i class="bi bi-phone me-1"></i>Phone OTP</span>
+                  </td>
+                  <td th:text="${#temporals.format(c.createdAt, 'dd MMM yyyy')}">10 Nov 2026</td>
+                  <td>
+                    <span th:if="${c.active}" class="badge bg-success-subtle text-success">Active</span>
+                    <span th:unless="${c.active}" class="badge bg-secondary">Inactive</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div th:replace="~{layout/base :: footer}"></div>
+</body>
+</html>
+

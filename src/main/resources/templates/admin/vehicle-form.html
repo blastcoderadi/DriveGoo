@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head(${vehicleId != null ? 'Edit Vehicle' : 'Add Vehicle'})}"></head>
+<body>
+
+  <div th:replace="~{layout/base :: navbar}"></div>
+  <div th:replace="~{layout/base :: alerts}"></div>
+
+  <main class="py-5">
+    <div class="container" style="max-width: 720px;">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="fw-bold mb-1" th:text="${vehicleId != null ? 'Edit Fleet Vehicle' : 'Add New Vehicle'}">Add Vehicle</h2>
+          <p class="text-muted small mb-0">Configure specs, pricing, and category-specific options</p>
+        </div>
+        <a th:href="@{/admin/vehicles}" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-arrow-left me-1"></i> Back to Fleet
+        </a>
+      </div>
+
+      <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+        <form th:action="${vehicleId != null} ? @{/admin/vehicles/update/{id}(id=${vehicleId})} : @{/admin/vehicles/save}"
+              method="post" th:object="${vehicleForm}">
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Brand <span class="text-danger">*</span></label>
+              <input type="text" th:field="*{brand}" class="form-control" placeholder="e.g. Hyundai" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Model <span class="text-danger">*</span></label>
+              <input type="text" th:field="*{model}" class="form-control" placeholder="e.g. Creta" required>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Vehicle Type (OOP Subclass) <span class="text-danger">*</span></label>
+              <select th:field="*{vehicleType}" class="form-select" id="vehicleTypeSelect" onchange="toggleTypeFields()" required>
+                <option value="CAR">Car (Standard Hatchback/Sedan)</option>
+                <option value="BIKE">Bike (Cruiser/Scooter - ₹200 surcharge)</option>
+                <option value="SUV">SUV (10% Premium Surcharge)</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Registration Number</label>
+              <input type="text" th:field="*{registrationNumber}" class="form-control" placeholder="MH-01-AB-1234">
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Price Per Day (₹) <span class="text-danger">*</span></label>
+              <input type="number" th:field="*{pricePerDay}" class="form-control" placeholder="2500" min="1" step="0.01" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Security Deposit (₹) <span class="text-danger">*</span></label>
+              <input type="number" th:field="*{securityDeposit}" class="form-control" placeholder="5000" min="0" step="0.01" required>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label class="form-label small fw-semibold">Seats</label>
+              <input type="number" th:field="*{seats}" class="form-control" placeholder="5">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-semibold">Fuel Type</label>
+              <select th:field="*{fuelType}" class="form-select">
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+                <option value="CNG">CNG</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-semibold">Transmission</label>
+              <select th:field="*{transmission}" class="form-select">
+                <option value="Manual">Manual</option>
+                <option value="Automatic">Automatic</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Specific Fields based on Vehicle Type -->
+          <div id="carFields" class="mb-3 p-3 border rounded-3 bg-light">
+            <label class="form-label small fw-semibold">Number of Doors (Car)</label>
+            <input type="number" th:field="*{numberOfDoors}" class="form-control" placeholder="4" value="4">
+          </div>
+
+          <div id="bikeFields" class="mb-3 p-3 border rounded-3 bg-light d-none">
+            <label class="form-label small fw-semibold">Bike Sub-Type</label>
+            <input type="text" th:field="*{bikeType}" class="form-control" placeholder="Cruiser / Sports / Scooter">
+          </div>
+
+          <div id="suvFields" class="mb-3 p-3 border rounded-3 bg-light d-none">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" th:field="*{fourWheelDrive}" id="fwdCheck">
+              <label class="form-check-label small fw-semibold" for="fwdCheck">Four-Wheel Drive (4WD / AWD)</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">Image URL or Local Path</label>
+            <input type="text" th:field="*{imageUrl}" class="form-control" placeholder="/images/car.svg">
+            <div class="form-text small">Default SVG placeholders: /images/car.svg, /images/swift.svg, /images/bike.svg, /images/suv.svg</div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-semibold">Description</label>
+            <textarea th:field="*{description}" rows="3" class="form-control" placeholder="Vehicle highlights, condition, etc."></textarea>
+          </div>
+
+          <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" th:field="*{active}" id="activeCheck" checked>
+            <label class="form-check-label small fw-semibold" for="activeCheck">Active (Available to customer search)</label>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+            <a th:href="@{/admin/vehicles}" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary-custom px-4">
+              <i class="bi bi-save me-1"></i> Save Vehicle
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{layout/base :: footer}"></div>
+
+  <script>
+    function toggleTypeFields() {
+      const type = document.getElementById('vehicleTypeSelect').value;
+      document.getElementById('carFields').classList.toggle('d-none', type !== 'CAR');
+      document.getElementById('bikeFields').classList.toggle('d-none', type !== 'BIKE');
+      document.getElementById('suvFields').classList.toggle('d-none', type !== 'SUV');
+    }
+    document.addEventListener('DOMContentLoaded', toggleTypeFields);
+  </script>
+</body>
+</html>
+

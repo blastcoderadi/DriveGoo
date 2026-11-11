@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('Admin Dashboard')}"></head>
+<body>
+
+  <div th:replace="~{layout/base :: navbar}"></div>
+  <div th:replace="~{layout/base :: alerts}"></div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Admin Sidebar -->
+      <nav class="col-md-3 col-lg-2 d-md-block admin-sidebar collapse" id="sidebarMenu">
+        <div class="position-sticky pt-3">
+          <h6 class="sidebar-heading px-3 mt-2 mb-3 text-uppercase text-secondary small fw-bold">Admin Portal</h6>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{/admin/dashboard}">
+                <i class="bi bi-speedometer2"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/admin/vehicles}">
+                <i class="bi bi-car-front"></i> Manage Vehicles
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/admin/bookings}">
+                <i class="bi bi-calendar2-range"></i> Manage Bookings
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/admin/customers}">
+                <i class="bi bi-people"></i> Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/admin/payments}">
+                <i class="bi bi-credit-card"></i> Payments
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/admin/reports}">
+                <i class="bi bi-bar-chart"></i> Reports
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-3 mb-4 border-bottom">
+          <div>
+            <h2 class="fw-bold mb-1">Fleet Operations Dashboard</h2>
+            <p class="text-muted small mb-0">Real-time statistics queried directly from DriveGo database</p>
+          </div>
+          <div class="btn-toolbar gap-2">
+            <a th:href="@{/admin/vehicles/new}" class="btn btn-primary-custom btn-sm">
+              <i class="bi bi-plus-lg me-1"></i> Add Vehicle
+            </a>
+          </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6 col-xl-3">
+            <div class="card card-custom p-3 bg-white">
+              <span class="text-muted small fw-semibold">Total Revenue (CONFIRMED/DONE)</span>
+              <h3 class="fw-bold text-success my-2">₹<span th:text="${#numbers.formatDecimal(totalRevenue, 0, 'COMMA', 0, 'POINT')}">0</span></h3>
+              <span class="small text-muted"><i class="bi bi-cash-coin me-1"></i>Sum of aggregate total_amount</span>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="card card-custom p-3 bg-white">
+              <span class="text-muted small fw-semibold">Fleet Size</span>
+              <h3 class="fw-bold text-dark my-2" th:text="${totalVehicles}">6</h3>
+              <span class="small text-muted"><i class="bi bi-car-front me-1"></i>Active cars, bikes, &amp; SUVs</span>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="card card-custom p-3 bg-white">
+              <span class="text-muted small fw-semibold">Total Bookings</span>
+              <h3 class="fw-bold text-primary my-2" th:text="${totalBookings}">0</h3>
+              <span class="small text-muted"><i class="bi bi-journal-text me-1"></i>Across all lifecycle stages</span>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="card card-custom p-3 bg-white">
+              <span class="text-muted small fw-semibold">Pending Approval</span>
+              <h3 class="fw-bold text-warning my-2" th:text="${pendingBookings}">0</h3>
+              <span class="small text-muted"><i class="bi bi-hourglass-split me-1"></i>Require admin action</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking Status Breakdown -->
+        <div class="row g-4 mb-4">
+          <div class="col-lg-6">
+            <div class="card card-custom p-4 bg-white h-100">
+              <h5 class="fw-bold mb-3">Booking Status Overview</h5>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  <span><span class="badge badge-status-pending me-2">PENDING</span> Awaiting Admin Approval</span>
+                  <strong th:text="${pendingBookings}">0</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  <span><span class="badge badge-status-confirmed me-2">CONFIRMED</span> Reserved for Customer</span>
+                  <strong th:text="${confirmedBookings}">0</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  <span><span class="badge badge-status-completed me-2">COMPLETED</span> Completed &amp; Returned</span>
+                  <strong th:text="${completedBookings}">0</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  <span><span class="badge badge-status-cancelled me-2">CANCELLED</span> Cancelled / Rejected</span>
+                  <strong th:text="${cancelledBookings}">0</strong>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card card-custom p-4 bg-white h-100">
+              <h5 class="fw-bold mb-3">Quick Admin Actions</h5>
+              <div class="d-grid gap-2">
+                <a th:href="@{/admin/bookings(status='PENDING')}" class="btn btn-outline-warning text-dark text-start py-2">
+                  <i class="bi bi-clock-history me-2"></i> Review Pending Bookings (<span th:text="${pendingBookings}">0</span> pending)
+                </a>
+                <a th:href="@{/admin/vehicles/new}" class="btn btn-outline-primary text-start py-2">
+                  <i class="bi bi-plus-circle me-2"></i> Register New Fleet Vehicle
+                </a>
+                <a th:href="@{/admin/customers}" class="btn btn-outline-secondary text-start py-2">
+                  <i class="bi bi-people me-2"></i> View Customer Directory (<span th:text="${totalCustomers}">0</span> registered)
+                </a>
+                <a th:href="@{/admin/payments}" class="btn btn-outline-success text-start py-2">
+                  <i class="bi bi-credit-card-2-front me-2"></i> Audit Simulated Payment Logs
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Table -->
+        <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">Recent Booking Requests</h5>
+            <a th:href="@{/admin/bookings}" class="small text-primary text-decoration-none">View All Bookings</a>
+          </div>
+
+          <div th:if="${#lists.isEmpty(recentBookings)}" class="text-center py-4 text-muted small">
+            No bookings recorded yet.
+          </div>
+
+          <div th:unless="${#lists.isEmpty(recentBookings)}" class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light small">
+                <tr>
+                  <th>Code</th>
+                  <th>Customer</th>
+                  <th>Vehicle</th>
+                  <th>Dates</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th class="text-end">Manage</th>
+                </tr>
+              </thead>
+              <tbody class="small">
+                <tr th:each="b : ${recentBookings}">
+                  <td><strong th:text="${b.bookingCode}">DG-A3F7K9Q2</strong></td>
+                  <td th:text="${b.user.fullName}">Customer Name</td>
+                  <td th:text="${b.vehicle.displayName}">Vehicle</td>
+                  <td th:text="${b.pickupDate} + ' to ' + ${b.returnDate}">Dates</td>
+                  <td class="fw-bold text-primary">₹<span th:text="${#numbers.formatDecimal(b.totalAmount, 0, 'COMMA', 0, 'POINT')}">12,875</span></td>
+                  <td>
+                    <span th:if="${b.status.name() == 'PENDING'}" class="badge badge-status-pending">Pending</span>
+                    <span th:if="${b.status.name() == 'CONFIRMED'}" class="badge badge-status-confirmed">Confirmed</span>
+                    <span th:if="${b.status.name() == 'ACTIVE'}" class="badge badge-status-active">Active</span>
+                    <span th:if="${b.status.name() == 'COMPLETED'}" class="badge badge-status-completed">Completed</span>
+                    <span th:if="${b.status.name() == 'CANCELLED'}" class="badge badge-status-cancelled">Cancelled</span>
+                  </td>
+                  <td class="text-end">
+                    <a th:href="@{/admin/bookings}" class="btn btn-outline-secondary btn-sm py-0 px-2" style="font-size: 0.8rem;">Review</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div th:replace="~{layout/base :: footer}"></div>
+</body>
+</html>
+

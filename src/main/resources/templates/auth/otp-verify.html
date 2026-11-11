@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('Verify OTP')}"></head>
+<body class="bg-light">
+
+  <div th:replace="~{layout/base :: navbar}"></div>
+  <div th:replace="~{layout/base :: alerts}"></div>
+
+  <main class="d-flex align-items-center py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+          <div class="card shadow-sm border-0 p-4" style="border-radius: 16px;">
+            <div class="text-center mb-4">
+              <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex align-items-center justify-content-center mb-2" style="width: 54px; height: 54px;">
+                <i class="bi bi-shield-check fs-3"></i>
+              </div>
+              <h4 class="fw-bold text-dark mb-1">Enter Verification Code</h4>
+              <p class="text-muted small mb-0">We sent a 6-digit code to <strong class="text-dark" th:text="'+91 ' + ${phone}">+91 9876543210</strong></p>
+              <a th:href="@{/auth/login}" class="text-primary small text-decoration-none"><i class="bi bi-pencil-square me-1"></i>Change number</a>
+            </div>
+
+            <!-- Demo Banner -->
+            <div class="alert alert-success py-2 px-3 small mb-3">
+              <i class="bi bi-shield-check me-1"></i>
+              <strong>Demo Mode:</strong> You can enter <strong>any 6-digit code</strong> (e.g. <span class="badge bg-primary">123456</span>) to verify immediately.
+            </div>
+
+            <!-- Inline Error -->
+            <div th:if="${errorMsg}" class="alert alert-danger py-2 px-3 small d-flex align-items-center mb-3">
+              <i class="bi bi-exclamation-circle-fill me-2 fs-6"></i>
+              <div>
+                <span th:text="${errorMsg}">Invalid code.</span>
+              </div>
+            </div>
+
+            <form th:action="@{/auth/otp/verify}" method="post">
+              <!-- New user: ask for name once -->
+              <div th:if="${isNewUser}" class="mb-3">
+                <label class="form-label small fw-semibold text-dark">Your Full Name</label>
+                <input type="text" name="fullName" class="form-control" placeholder="e.g. Aditya Kumar" required>
+                <div class="form-text small">Since this is your first time, please enter your name.</div>
+              </div>
+
+              <!-- 6-digit OTP input -->
+              <div class="mb-3">
+                <label class="form-label small fw-semibold text-dark">6-Digit Code</label>
+                <input type="text" name="otp" class="form-control text-center fs-4 fw-bold letter-spacing-2"
+                       placeholder="123456" maxlength="6" pattern="\d{6}" required autofocus autocomplete="one-time-code">
+              </div>
+
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary-custom py-2">
+                  Verify &amp; Continue <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+              </div>
+            </form>
+
+            <!-- Resend Timer -->
+            <div class="text-center mt-2 small text-muted">
+              <span>Didn't get the code? </span>
+              <span id="timerText">Resend in <strong id="timerSec">30</strong>s</span>
+              <form id="resendForm" th:action="@{/auth/otp/send}" method="post" class="d-none mt-2">
+                <input type="hidden" name="phone" th:value="${phone}">
+                <button type="submit" class="btn btn-link p-0 text-primary small text-decoration-none fw-semibold">
+                  Resend OTP Now
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{layout/base :: footer}"></div>
+
+  <script>
+    // 30-second countdown timer for OTP resend
+    let timeLeft = 30;
+    const timerSec = document.getElementById('timerSec');
+    const timerText = document.getElementById('timerText');
+    const resendForm = document.getElementById('resendForm');
+
+    const countdown = setInterval(() => {
+      timeLeft--;
+      if (timerSec) timerSec.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        if (timerText) timerText.classList.add('d-none');
+        if (resendForm) resendForm.classList.remove('d-none');
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
+

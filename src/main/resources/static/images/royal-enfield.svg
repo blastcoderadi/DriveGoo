@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="tankGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="40%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="35%" stop-color="#cbd5e1"/>
+      <stop offset="70%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+    <linearGradient id="tireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="70%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="neonGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="headlightGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef08a" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#fde047" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#eab308" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Ground Shadow -->
+  <ellipse cx="300" cy="325" rx="240" ry="18" fill="#000000" opacity="0.35"/>
+  <ellipse cx="300" cy="325" rx="180" ry="10" fill="#000000" opacity="0.5"/>
+
+  <!-- REAR WHEEL & SPROCKET -->
+  <g class="rear-wheel" filter="url(#shadow)">
+    <!-- Tire -->
+    <circle cx="130" cy="240" r="75" fill="url(#tireGrad)" stroke="#334155" stroke-width="4"/>
+    <circle cx="130" cy="240" r="54" fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="6,4"/>
+    <!-- Chrome Rim -->
+    <circle cx="130" cy="240" r="50" fill="#0f172a" stroke="url(#chromeGrad)" stroke-width="8"/>
+    <!-- Chrome Hub -->
+    <circle cx="130" cy="240" r="22" fill="url(#chromeGrad)" stroke="#475569" stroke-width="2"/>
+    <circle cx="130" cy="240" r="10" fill="#1e293b"/>
+    <!-- Spokes -->
+    <path d="M 130 190 L 130 290 M 80 240 L 180 240 M 95 205 L 165 275 M 95 275 L 165 205 M 110 195 L 150 285 M 150 195 L 110 285 M 85 220 L 175 260 M 85 260 L 175 220" stroke="#cbd5e1" stroke-width="1.8" opacity="0.85"/>
+    <!-- Brake Disc -->
+    <circle cx="130" cy="240" r="28" fill="none" stroke="#94a3b8" stroke-width="4" stroke-dasharray="4,3"/>
+  </g>
+
+  <!-- FRONT WHEEL & FORKS -->
+  <g class="front-wheel" filter="url(#shadow)">
+    <!-- Tire -->
+    <circle cx="470" cy="240" r="75" fill="url(#tireGrad)" stroke="#334155" stroke-width="4"/>
+    <circle cx="470" cy="240" r="54" fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="6,4"/>
+    <!-- Chrome Rim -->
+    <circle cx="470" cy="240" r="50" fill="#0f172a" stroke="url(#chromeGrad)" stroke-width="8"/>
+    <!-- Chrome Hub -->
+    <circle cx="470" cy="240" r="22" fill="url(#chromeGrad)" stroke="#475569" stroke-width="2"/>
+    <circle cx="470" cy="240" r="10" fill="#1e293b"/>
+    <!-- Spokes -->
+    <path d="M 470 190 L 470 290 M 420 240 L 520 240 M 435 205 L 505 275 M 435 275 L 505 205 M 450 195 L 490 285 M 490 195 L 450 285 M 425 220 L 515 260 M 425 260 L 515 220" stroke="#cbd5e1" stroke-width="1.8" opacity="0.85"/>
+    <!-- Disc Brake & Caliper -->
+    <circle cx="470" cy="240" r="32" fill="none" stroke="#94a3b8" stroke-width="5" stroke-dasharray="5,3"/>
+    <rect x="445" y="215" width="16" height="22" rx="3" fill="#1e293b" stroke="#ca8a04" stroke-width="1.5"/>
+  </g>
+
+  <!-- REAR MUDGUARD / FENDER -->
+  <path d="M 70 240 C 70 180 115 155 180 160 L 190 185 C 140 180 100 200 95 240 Z" fill="url(#tankGrad)" stroke="#475569" stroke-width="2"/>
+  <path d="M 80 235 C 80 190 120 170 175 172" stroke="url(#goldGrad)" stroke-width="2" fill="none"/>
+
+  <!-- FRONT MUDGUARD / FENDER -->
+  <path d="M 405 200 C 425 160 480 160 525 195 L 515 210 C 475 180 435 180 415 215 Z" fill="url(#tankGrad)" stroke="#475569" stroke-width="2"/>
+  <path d="M 425 195 C 445 175 480 175 510 200" stroke="url(#goldGrad)" stroke-width="2" fill="none"/>
+
+  <!-- SWINGARM & REAR SUSPENSION -->
+  <path d="M 130 240 L 250 235 L 260 215 L 140 225 Z" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <!-- Chrome Spring Shock Absorber -->
+  <g transform="rotate(-25 180 210)">
+    <rect x="165" y="190" width="16" height="70" rx="4" fill="url(#chromeGrad)"/>
+    <path d="M 165 200 Q 181 205 165 210 Q 181 215 165 220 Q 181 225 165 230 Q 181 235 165 240 Q 181 245 165 250" stroke="#0f172a" stroke-width="4" fill="none"/>
+  </g>
+
+  <!-- CHASSIS / FRAME -->
+  <path d="M 170 195 L 250 200 L 280 280 L 370 280 L 400 150 L 300 150 L 220 185 Z" fill="#0f172a" stroke="#1e293b" stroke-width="3"/>
+
+  <!-- 350cc ENGINE BLOCK (Royal Enfield Bullet/Classic Single Cylinder) -->
+  <g class="engine">
+    <!-- Crankcase (Polished Chrome Oval) -->
+    <ellipse cx="295" cy="250" rx="45" ry="32" fill="url(#chromeGrad)" stroke="#475569" stroke-width="2.5"/>
+    <circle cx="295" cy="250" r="16" fill="#1e293b" stroke="url(#goldGrad)" stroke-width="2"/>
+    <text x="295" y="254" font-family="'Inter', sans-serif" font-weight="900" font-size="8" fill="#fde047" text-anchor="middle">RE</text>
+    <rect x="250" y="235" width="25" height="30" rx="4" fill="#334155"/>
+    
+    <!-- Cylinder Block & Cooling Fins -->
+    <path d="M 285 220 L 335 215 L 345 165 L 295 170 Z" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+    <!-- Fins -->
+    <line x1="288" y1="210" x2="338" y2="205" stroke="url(#chromeGrad)" stroke-width="2.5"/>
+    <line x1="290" y1="200" x2="340" y2="195" stroke="url(#chromeGrad)" stroke-width="2.5"/>
+    <line x1="292" y1="190" x2="342" y2="185" stroke="url(#chromeGrad)" stroke-width="2.5"/>
+    <line x1="294" y1="180" x2="344" y2="175" stroke="url(#chromeGrad)" stroke-width="2.5"/>
+    <line x1="296" y1="170" x2="346" y2="165" stroke="url(#chromeGrad)" stroke-width="2.5"/>
+
+    <!-- Tappet Covers / Spark Plug -->
+    <rect x="305" y="152" width="40" height="14" rx="4" fill="url(#chromeGrad)" stroke="#475569" stroke-width="1.5"/>
+    
+    <!-- Carburetor / Fuel Injection Throttle Body & Air Filter Box -->
+    <ellipse cx="240" cy="210" rx="18" ry="20" fill="url(#chromeGrad)" stroke="#334155" stroke-width="2"/>
+    <rect x="220" y="195" width="14" height="25" rx="3" fill="#1e293b"/>
+  </g>
+
+  <!-- CHROME EXHAUST PIPE (Long Classic Swept Pea-Shooter Exhaust) -->
+  <g class="exhaust" filter="url(#shadow)">
+    <!-- Header pipe emerging from engine -->
+    <path d="M 340 190 C 375 200 370 270 330 275 L 200 275 L 80 275 L 65 270 L 65 285 L 85 285 L 325 285 C 385 285 390 195 345 178 Z" fill="url(#chromeGrad)" stroke="#64748b" stroke-width="1.5"/>
+    <!-- Exhaust Clamp & Muffler Taper -->
+    <rect x="180" y="271" width="10" height="18" rx="2" fill="#475569"/>
+    <!-- Pea Shooter Tip -->
+    <ellipse cx="65" cy="278" rx="4" ry="7" fill="#0f172a" stroke="url(#chromeGrad)" stroke-width="1.5"/>
+  </g>
+
+  <!-- TEARDROP FUEL TANK (Royal Enfield Signature Tank) -->
+  <g class="fuel-tank" filter="url(#shadow)">
+    <!-- Tank Body -->
+    <path d="M 280 160 C 275 125 310 110 380 115 C 420 118 430 145 425 165 C 410 175 340 180 280 160 Z" fill="url(#tankGrad)" stroke="#475569" stroke-width="2.5"/>
+    
+    <!-- Tank Highlights / Reflections -->
+    <path d="M 300 130 C 340 120 395 125 415 140" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.4" fill="none"/>
+    
+    <!-- Gold Pinstripe -->
+    <path d="M 295 155 C 300 135 325 125 375 128 C 405 130 415 145 412 158 C 390 168 335 170 295 155 Z" stroke="url(#goldGrad)" stroke-width="2" fill="none"/>
+    
+    <!-- Rubber Knee Pad -->
+    <path d="M 320 145 C 325 138 345 138 355 142 C 360 152 345 165 330 162 Z" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+
+    <!-- Royal Enfield Wings Emblem -->
+    <g transform="translate(365, 142)">
+      <ellipse cx="12" cy="5" rx="14" ry="7" fill="url(#goldGrad)" stroke="#78350f" stroke-width="1"/>
+      <text x="12" y="8" font-family="'Inter', serif" font-weight="900" font-size="5.5" fill="#0f172a" text-anchor="middle" letter-spacing="0.5">ROYAL ENFIELD</text>
+    </g>
+
+    <!-- Chrome Fuel Filler Cap -->
+    <ellipse cx="375" cy="116" rx="10" ry="4" fill="url(#chromeGrad)" stroke="#475569" stroke-width="1.5"/>
+  </g>
+
+  <!-- SPLIT CRUISER SEATS -->
+  <g class="seats" filter="url(#shadow)">
+    <!-- Rider Sprung Saddle (Curved Cruiser Style) -->
+    <path d="M 215 170 C 220 150 250 148 290 160 C 275 180 230 188 215 170 Z" fill="#18181b" stroke="#09090b" stroke-width="2"/>
+    <!-- Seat Stitching & Texture -->
+    <path d="M 225 165 C 240 158 265 158 280 164" stroke="#52525b" stroke-width="1.5" stroke-dasharray="3,2" fill="none"/>
+    <circle cx="230" cy="178" r="4" fill="url(#chromeGrad)"/> <!-- Seat Spring mount -->
+
+    <!-- Pillion / Rear Passenger Seat -->
+    <path d="M 155 172 C 160 160 190 158 210 165 C 208 178 170 182 155 172 Z" fill="#18181b" stroke="#09090b" stroke-width="2"/>
+    <path d="M 165 168 C 175 164 195 164 202 168" stroke="#52525b" stroke-width="1.5" stroke-dasharray="3,2" fill="none"/>
+
+    <!-- Rear Chrome Grab Rail -->
+    <path d="M 135 180 L 155 165 L 175 165" stroke="url(#chromeGrad)" stroke-width="4" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- FRONT FORKS & SUSPENSION -->
+  <g class="front-forks" filter="url(#shadow)">
+    <!-- Upper Fork Covers (Classic Casquette Nacelle) -->
+    <path d="M 405 130 L 465 240 M 415 125 L 475 235" stroke="url(#chromeGrad)" stroke-width="7" stroke-linecap="round"/>
+    <!-- Rubber Gaiters (Accordion boots) -->
+    <g transform="translate(427, 160) rotate(58)">
+      <rect x="0" y="0" width="35" height="16" rx="3" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+      <line x1="7" y1="0" x2="7" y2="16" stroke="#334155" stroke-width="2"/>
+      <line x1="14" y1="0" x2="14" y2="16" stroke="#334155" stroke-width="2"/>
+      <line x1="21" y1="0" x2="21" y2="16" stroke="#334155" stroke-width="2"/>
+      <line x1="28" y1="0" x2="28" y2="16" stroke="#334155" stroke-width="2"/>
+    </g>
+    <!-- Lower Fork Sliders (Chrome) -->
+    <path d="M 445 205 L 470 240" stroke="url(#chromeGrad)" stroke-width="9" stroke-linecap="round"/>
+  </g>
+
+  <!-- HANDLEBARS & CONTROLS -->
+  <g class="handlebars" filter="url(#shadow)">
+    <!-- Classic Casquette / Headlight Nacelle (Iconic RE Bullet casing) -->
+    <path d="M 400 120 C 400 105 425 105 435 120 L 420 135 Z" fill="url(#tankGrad)" stroke="#475569" stroke-width="2"/>
+    
+    <!-- Chrome Handlebar tube -->
+    <path d="M 370 100 Q 405 105 415 118" stroke="url(#chromeGrad)" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M 360 102 L 380 98" stroke="#0f172a" stroke-width="8" stroke-linecap="round"/> <!-- Grip -->
+    <path d="M 362 108 L 385 103" stroke="url(#chromeGrad)" stroke-width="2.5" stroke-linecap="round"/> <!-- Clutch Lever -->
+
+    <!-- Round Chrome Rear-View Mirror -->
+    <path d="M 380 98 L 385 75" stroke="url(#chromeGrad)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <circle cx="385" cy="72" r="10" fill="url(#chromeGrad)" stroke="#475569" stroke-width="1.5"/>
+    <circle cx="385" cy="72" r="8" fill="#93c5fd" opacity="0.6"/>
+
+    <!-- Round Classic Headlight & Chrome Rim with Peak Visor -->
+    <path d="M 430 115 C 445 115 455 125 455 135 C 455 145 445 155 430 155 Z" fill="#0f172a" stroke="url(#chromeGrad)" stroke-width="3"/>
+    <!-- Chrome Visor Hood -->
+    <path d="M 432 114 Q 452 112 458 122" stroke="url(#chromeGrad)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <!-- Lens with Glass Reflector Pattern -->
+    <path d="M 442 120 C 452 125 452 145 442 150" fill="none" stroke="#fef08a" stroke-width="3"/>
+    <circle cx="440" cy="135" r="8" fill="url(#headlightGlow)"/>
+
+    <!-- RE Pilot Tiger Lamp (Small parking light above headlight) -->
+    <circle cx="426" cy="115" r="3.5" fill="#fef08a" stroke="url(#chromeGrad)" stroke-width="1"/>
+  </g>
+
+  <!-- VINTAGE BADGE / CALLOUT OVERLAY -->
+  <g transform="translate(20, 20)">
+    <rect x="0" y="0" width="165" height="34" rx="8" fill="#0f172a" fill-opacity="0.85" stroke="#3b82f6" stroke-width="1.5"/>
+    <circle cx="18" cy="17" r="7" fill="#2563eb"/>
+    <path d="M 14 17 L 17 20 L 22 14" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <text x="32" y="16" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#ffffff">Royal Enfield</text>
+    <text x="32" y="27" font-family="'Inter', sans-serif" font-weight="500" font-size="9" fill="#93c5fd">Classic 350 Cruiser</text>
+  </g>
+</svg>
+

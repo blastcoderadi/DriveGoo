@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('My Bookings')}"></head>
+<body>
+
+  <div th:replace="~{layout/base :: navbar}"></div>
+  <div th:replace="~{layout/base :: alerts}"></div>
+
+  <main class="py-5">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+          <h2 class="fw-bold mb-1">My Booking History</h2>
+          <p class="text-muted small mb-0">Track all your past and upcoming vehicle reservations</p>
+        </div>
+        <a th:href="@{/vehicles}" class="btn btn-primary-custom btn-sm">
+          <i class="bi bi-plus-lg me-1"></i> Rent Another Vehicle
+        </a>
+      </div>
+
+      <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+        <div th:if="${#lists.isEmpty(bookings)}" class="text-center py-5 text-muted">
+          <i class="bi bi-calendar-x fs-1 d-block mb-2 text-secondary"></i>
+          <h5 class="fw-bold text-dark">No Bookings Yet</h5>
+          <p class="small mb-3">You haven't made any reservations. Find your ride today!</p>
+          <a th:href="@{/vehicles}" class="btn btn-primary-custom btn-sm">Explore Vehicles</a>
+        </div>
+
+        <div th:unless="${#lists.isEmpty(bookings)}" class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light small">
+              <tr>
+                <th>Booking Code</th>
+                <th>Vehicle</th>
+                <th>Dates &amp; Duration</th>
+                <th>Location</th>
+                <th>Total Paid</th>
+                <th>Status</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="small">
+              <tr th:each="b : ${bookings}">
+                <td>
+                  <strong class="text-dark" th:text="${b.bookingCode}">DG-A3F7K9Q2</strong>
+                  <span class="d-block text-muted" style="font-size: 0.72rem;" th:text="${#temporals.format(b.createdAt, 'dd MMM yyyy, hh:mm a')}">10 Nov 2026</span>
+                </td>
+                <td>
+                  <span class="fw-semibold" th:text="${b.vehicle.displayName}">Swift</span>
+                  <span class="badge bg-light text-dark border small ms-1" th:text="${b.vehicle.vehicleCategory}">Car</span>
+                </td>
+                <td>
+                  <span th:text="${b.pickupDate} + ' to ' + ${b.returnDate}">2026-11-12 to 2026-11-15</span>
+                  <span class="d-block text-muted" style="font-size: 0.75rem;">(<span th:text="${b.rentalDays}">3</span> Days)</span>
+                </td>
+                <td class="text-muted" th:text="${b.pickupLocation}">SRM AP Campus Hub</td>
+                <td class="fw-bold text-primary">₹<span th:text="${#numbers.formatDecimal(b.totalAmount, 0, 'COMMA', 2, 'POINT')}">12,875.00</span></td>
+                <td>
+                  <span th:if="${b.status.name() == 'PENDING'}" class="badge badge-status-pending px-2 py-1">Pending Approval</span>
+                  <span th:if="${b.status.name() == 'CONFIRMED'}" class="badge badge-status-confirmed px-2 py-1">Confirmed</span>
+                  <span th:if="${b.status.name() == 'ACTIVE'}" class="badge badge-status-active px-2 py-1">Trip Active</span>
+                  <span th:if="${b.status.name() == 'COMPLETED'}" class="badge badge-status-completed px-2 py-1">Completed</span>
+                  <span th:if="${b.status.name() == 'CANCELLED'}" class="badge badge-status-cancelled px-2 py-1">Cancelled</span>
+                </td>
+                <td class="text-end">
+                  <div class="d-flex justify-content-end gap-1">
+                    <a th:href="@{/booking/confirmation/{code}(code=${b.bookingCode})}" class="btn btn-outline-secondary btn-sm py-1 px-2">
+                      <i class="bi bi-file-earmark-text"></i>
+                    </a>
+
+                    <!-- Cancel button only if cancellable -->
+                    <form th:if="${b.isCancellable()}" th:action="@{/booking/cancel/{id}(id=${b.id})}" method="post"
+                          onsubmit="return confirm('Are you sure you want to cancel this booking? Refund will be initiated.')">
+                      <button type="submit" class="btn btn-outline-danger btn-sm py-1 px-2" title="Cancel Booking">
+                        <i class="bi bi-x-circle"></i> Cancel
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{layout/base :: footer}"></div>
+</body>
+</html>
+

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('Home')}"></head>
+<body>
+
+  <!-- Navbar -->
+  <div th:replace="~{layout/base :: navbar}"></div>
+  <div th:replace="~{layout/base :: alerts}"></div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+      <div class="container py-3 hero-content">
+        <!-- High Contrast Glowing Pill Badge -->
+        <span class="badge hero-badge rounded-pill mb-3">
+          <i class="bi bi-shield-check me-1 fs-6"></i> Transparent Pricing &bull; Instant Confirmation
+        </span>
+
+        <h1 class="hero-title mb-3">
+          Find Your <span class="text-primary-gradient">Ride.</span><br>
+          <span class="text-white">Start Your Journey.</span>
+        </h1>
+        <p class="hero-subtitle mb-4 mx-auto" style="max-width: 640px;">
+          Rent iconic Royal Enfield cruiser bikes, fuel-efficient city cars, and adventure SUVs with transparent pricing and zero hidden charges.
+        </p>
+
+        <!-- Semi-Transparent Glassmorphic Search Card -->
+        <div class="card hero-search-card p-3 mx-auto mb-4" style="max-width: 840px;">
+          <form th:action="@{/vehicles}" method="get" class="row g-2 align-items-center">
+            <div class="col-md-5">
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" name="search" class="form-control border-start-0" placeholder="Search by brand or model (e.g. Classic 350, Swift)...">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <select name="category" class="form-select">
+                <option value="">All Categories</option>
+                <option value="Bike">Royal Enfield &amp; Bikes</option>
+                <option value="Car">Cars &amp; Sedans</option>
+                <option value="SUV">SUVs &amp; 4x4</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-primary-custom w-100 fw-bold">
+                <i class="bi bi-search me-1"></i> Search Rides
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Featured Royal Enfield Cruiser Callout (Merged into Hero) -->
+        <div class="hero-bike-preview d-flex flex-wrap align-items-center justify-content-between text-start">
+          <div class="d-flex align-items-center">
+            <img th:src="@{/images/royal-enfield.svg}" alt="Royal Enfield Classic 350 Cruiser" class="hero-bike-img me-3">
+            <div>
+              <div class="d-inline-flex align-items-center badge bg-primary text-white mb-1 px-2 py-1 small fw-semibold">
+                <i class="bi bi-fire me-1 text-warning"></i> Featured Ride
+              </div>
+              <h6 class="mb-0 text-white fw-bold">Royal Enfield Classic 350</h6>
+              <small class="text-light opacity-75">Cruiser Motorcycle &bull; ₹1,200/day &bull; Free helmet included</small>
+            </div>
+          </div>
+          <a th:href="@{/vehicles(category='Bike')}" class="btn btn-sm btn-outline-light px-3 py-2 mt-2 mt-sm-0 rounded-pill fw-semibold">
+            Rent Royal Enfield <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-5 bg-white border-bottom">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+          <div>
+            <h6 class="text-primary text-uppercase fw-bold small mb-1">Browse Categories</h6>
+            <h3 class="fw-bold mb-0">Choose by Vehicle Type</h3>
+          </div>
+          <a th:href="@{/vehicles}" class="btn btn-outline-secondary btn-sm">View All <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+
+        <div class="row g-4">
+          <!-- Cars -->
+          <div class="col-md-4">
+            <a th:href="@{/vehicles(category='Car')}" class="text-decoration-none">
+              <div class="card card-custom p-4 text-center h-100">
+                <div class="mb-3">
+                  <img th:src="@{/images/car.svg}" alt="Cars" style="height: 120px;" class="img-fluid">
+                </div>
+                <h5 class="fw-bold text-dark mb-1">Cars & Hatchbacks</h5>
+                <p class="text-muted small mb-0">Comfortable, fuel-efficient city and highway cars</p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Bikes -->
+          <div class="col-md-4">
+            <a th:href="@{/vehicles(category='Bike')}" class="text-decoration-none">
+              <div class="card card-custom p-4 text-center h-100">
+                <div class="mb-3">
+                  <img th:src="@{/images/bike.svg}" alt="Bikes" style="height: 120px;" class="img-fluid">
+                </div>
+                <h5 class="fw-bold text-dark mb-1">Bikes & Cruisers</h5>
+                <p class="text-muted small mb-0">Easy commuting and thrilling highway road trips</p>
+              </div>
+            </a>
+          </div>
+
+          <!-- SUVs -->
+          <div class="col-md-4">
+            <a th:href="@{/vehicles(category='SUV')}" class="text-decoration-none">
+              <div class="card card-custom p-4 text-center h-100">
+                <div class="mb-3">
+                  <img th:src="@{/images/suv.svg}" alt="SUVs" style="height: 120px;" class="img-fluid">
+                </div>
+                <h5 class="fw-bold text-dark mb-1">SUVs & 4x4</h5>
+                <p class="text-muted small mb-0">Spacious family haulers and off-road adventurers</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Vehicles -->
+    <section class="py-5">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+          <div>
+            <h6 class="text-primary text-uppercase fw-bold small mb-1">Ready for Pick Up</h6>
+            <h3 class="fw-bold mb-0">Featured Vehicles</h3>
+          </div>
+          <a th:href="@{/vehicles}" class="btn btn-outline-primary btn-sm">Explore All Vehicles <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+
+        <div class="row g-4">
+          <div th:each="v : ${featuredVehicles}" class="col-md-4 col-sm-6">
+            <div class="card card-custom h-100 overflow-hidden">
+              <div class="position-relative bg-light text-center p-3">
+                <img th:src="${v.imageUrl != null ? v.imageUrl : '/images/car.svg'}"
+                     th:alt="${v.displayName}" style="height: 160px; object-fit: contain;" class="img-fluid">
+                <span class="position-absolute top-0 end-0 m-3 badge bg-success" th:if="${v.active}">Available</span>
+                <span class="position-absolute top-0 end-0 m-3 badge bg-danger" th:unless="${v.active}">Unavailable</span>
+              </div>
+              <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <span class="badge bg-secondary-subtle text-secondary-emphasis" th:text="${v.vehicleCategory}">Car</span>
+                  <div class="text-end">
+                    <span class="fs-5 fw-bold text-primary">₹<span th:text="${#numbers.formatDecimal(v.pricePerDay, 0, 'COMMA', 0, 'POINT')}">2,500</span></span>
+                    <span class="text-muted small">/day</span>
+                  </div>
+                </div>
+                <h5 class="card-title fw-bold text-dark mb-2" th:text="${v.displayName}">Maruti Swift</h5>
+                <p class="card-text text-muted small flex-grow-1" th:text="${v.description}">Comfortable drive.</p>
+                
+                <div class="d-flex justify-content-between text-muted small py-2 my-2 border-top border-bottom">
+                  <span><i class="bi bi-people me-1"></i> <span th:text="${v.seats}">5</span> Seats</span>
+                  <span><i class="bi bi-fuel-pump me-1"></i> <span th:text="${v.fuelType}">Petrol</span></span>
+                  <span><i class="bi bi-gear me-1"></i> <span th:text="${v.transmission}">Manual</span></span>
+                </div>
+
+                <div class="mt-3">
+                  <a th:href="@{/vehicles/{id}(id=${v.id})}" class="btn btn-outline-secondary w-100 mb-2">View Details</a>
+                  <a th:if="${v.active}" th:href="@{/booking/new(vehicleId=${v.id})}" class="btn btn-primary-custom w-100">
+                    <i class="bi bi-calendar-check me-1"></i> Book Now
+                  </a>
+                  <button th:unless="${v.active}" class="btn btn-secondary w-100" disabled>Currently Unavailable</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-5 bg-white border-top">
+      <div class="container text-center">
+        <h6 class="text-primary text-uppercase fw-bold small mb-1">Simple & Quick</h6>
+        <h3 class="fw-bold mb-4">How DriveGo Works</h3>
+        <div class="row g-4 mt-2">
+          <div class="col-md-4">
+            <div class="p-3">
+              <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                <i class="bi bi-search fs-3"></i>
+              </div>
+              <h5 class="fw-bold mb-2">1. Choose Your Ride</h5>
+              <p class="text-muted small">Browse verified cars, bikes, and SUVs. Filter by budget, transmission, and fuel type.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3">
+              <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                <i class="bi bi-calendar3 fs-3"></i>
+              </div>
+              <h5 class="fw-bold mb-2">2. Pick Dates & Review</h5>
+              <p class="text-muted small">Select pickup & return dates. Live server breakdown computes exact rent, taxes, and deposit.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3">
+              <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                <i class="bi bi-key-fill fs-3"></i>
+              </div>
+              <h5 class="fw-bold mb-2">3. Drive Away</h5>
+              <p class="text-muted small">Confirm with simulated payment (UPI, Card, or Cash on Pickup) and get an instant invoice.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div th:replace="~{layout/base :: footer}"></div>
+</body>
+</html>
+

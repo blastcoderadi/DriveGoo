@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('Booking Confirmation')}"></head>
+<body>
+
+  <div th:replace="~{layout/base :: navbar}"></div>
+  <div th:replace="~{layout/base :: alerts}"></div>
+
+  <main class="py-5">
+    <div class="container" style="max-width: 820px;">
+
+      <!-- Success Header -->
+      <div class="text-center mb-4">
+        <div class="rounded-circle bg-success bg-opacity-10 text-success d-inline-flex align-items-center justify-content-center mb-2" style="width: 64px; height: 64px;">
+          <i class="bi bi-check-circle-fill fs-2"></i>
+        </div>
+        <h3 class="fw-bold text-dark mb-1">Booking Confirmed!</h3>
+        <p class="text-muted small">Your reservation is registered. Below is your official rental receipt &amp; invoice.</p>
+        <span class="badge bg-primary px-3 py-2 fs-6">Booking Code: <strong th:text="${booking.bookingCode}">DG-A3F7K9Q2</strong></span>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="d-flex justify-content-end gap-2 mb-3 d-print-none">
+        <button onclick="window.print()" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-printer me-1"></i> Print Invoice
+        </button>
+        <a th:href="@{/customer/bookings}" class="btn btn-navy btn-sm">
+          <i class="bi bi-calendar2-check me-1"></i> My Bookings
+        </a>
+      </div>
+
+      <!-- Invoice Sheet -->
+      <div class="card card-custom p-4 p-md-5 bg-white shadow-sm border" id="printableInvoice">
+        <!-- Invoice Header -->
+        <div class="d-flex justify-content-between align-items-start border-bottom pb-4 mb-4">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-car-front-fill text-primary fs-3"></i>
+              <h4 class="fw-bold mb-0">Drive<span class="text-primary">Go</span></h4>
+            </div>
+            <p class="text-muted small mb-0">Vehicle Rental Management System</p>
+            <p class="text-muted small mb-0">SRM University AP, Inavolu, Amaravati, AP 522240</p>
+          </div>
+          <div class="text-end">
+            <h5 class="fw-bold text-secondary mb-1">TAX INVOICE</h5>
+            <span class="text-muted small d-block">Invoice No: <strong class="text-dark" th:text="${invoice != null ? invoice.invoiceNumber : 'INV-2026-001001'}">INV-2026-001001</strong></span>
+            <span class="text-muted small d-block">Date: <span th:text="${#temporals.format(#temporals.createNow(), 'dd MMM yyyy')}">10 Nov 2026</span></span>
+            <span class="badge bg-success-subtle text-success small mt-1">PAID (SIMULATED)</span>
+          </div>
+        </div>
+
+        <!-- Customer & Trip Details -->
+        <div class="row g-3 mb-4 pb-3 border-bottom">
+          <div class="col-sm-6">
+            <h6 class="text-uppercase small fw-bold text-muted mb-2">Billed To (Customer)</h6>
+            <h6 class="fw-bold text-dark mb-1" th:text="${user != null ? user.fullName : (booking.user != null ? booking.user.fullName : 'DriveGo Customer')}">Aditya Kumar</h6>
+            <p class="small text-muted mb-0" th:if="${user != null ? user.email != null : (booking.user != null ? booking.user.email != null : false)}">Email: <span th:text="${user != null ? user.email : booking.user.email}">user@example.com</span></p>
+            <p class="small text-muted mb-0" th:if="${user != null ? user.phone != null : (booking.user != null ? booking.user.phone != null : false)}">Phone: <span th:text="${user != null ? user.phone : booking.user.phone}">+91 9876543210</span></p>
+          </div>
+          <div class="col-sm-6 text-sm-end">
+            <h6 class="text-uppercase small fw-bold text-muted mb-2">Trip Reservation</h6>
+            <p class="small text-muted mb-1">Vehicle: <strong class="text-dark" th:text="${booking.vehicle.displayName}">Hyundai Creta</strong> (<span th:text="${booking.vehicle.vehicleCategory}">SUV</span>)</p>
+            <p class="small text-muted mb-1">Pickup Date: <strong class="text-dark" th:text="${booking.pickupDate}">2026-11-12</strong></p>
+            <p class="small text-muted mb-1">Return Date: <strong class="text-dark" th:text="${booking.returnDate}">2026-11-15</strong></p>
+            <p class="small text-muted mb-0">Pickup Hub: <strong class="text-dark" th:text="${booking.pickupLocation}">SRM AP Campus Hub</strong></p>
+          </div>
+        </div>
+
+        <!-- Itemized Charges -->
+        <h6 class="text-uppercase small fw-bold text-muted mb-2">Billing Breakdown</h6>
+        <div class="table-responsive mb-4">
+          <table class="table table-sm table-bordered align-middle">
+            <thead class="table-light small">
+              <tr>
+                <th>Description</th>
+                <th class="text-center">Rate</th>
+                <th class="text-center">Duration</th>
+                <th class="text-end">Amount</th>
+              </tr>
+            </thead>
+            <tbody class="small">
+              <tr>
+                <td>Base Vehicle Rental (<span th:text="${booking.vehicle.displayName}">Vehicle</span>)</td>
+                <td class="text-center">₹<span th:text="${#numbers.formatDecimal(booking.dailyPriceSnapshot, 0, 'COMMA', 0, 'POINT')}">2,500</span>/day</td>
+                <td class="text-center"><span th:text="${booking.rentalDays}">3</span> Days</td>
+                <td class="text-end fw-semibold">₹<span th:text="${#numbers.formatDecimal(booking.baseRent, 0, 'COMMA', 2, 'POINT')}">7,500.00</span></td>
+              </tr>
+              <tr>
+                <td>Category Surcharge (<span th:text="${booking.vehicle.vehicleCategory}">SUV</span>)</td>
+                <td class="text-center">—</td>
+                <td class="text-center"><span th:text="${booking.rentalDays}">3</span> Days</td>
+                <td class="text-end fw-semibold">₹<span th:text="${#numbers.formatDecimal(booking.categoryCharge, 0, 'COMMA', 2, 'POINT')}">0.00</span></td>
+              </tr>
+              <tr>
+                <td>Goods &amp; Services Tax (GST 5%)</td>
+                <td class="text-center">5%</td>
+                <td class="text-center">—</td>
+                <td class="text-end fw-semibold">₹<span th:text="${#numbers.formatDecimal(booking.taxAmount, 0, 'COMMA', 2, 'POINT')}">375.00</span></td>
+              </tr>
+              <tr>
+                <td>Refundable Security Deposit</td>
+                <td class="text-center">Fixed</td>
+                <td class="text-center">—</td>
+                <td class="text-end fw-semibold">₹<span th:text="${#numbers.formatDecimal(booking.securityDeposit, 0, 'COMMA', 2, 'POINT')}">5,000.00</span></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="table-light">
+                <th colspan="3" class="text-end">Total Amount Paid</th>
+                <th class="text-end fs-5 text-primary">₹<span th:text="${#numbers.formatDecimal(booking.totalAmount, 0, 'COMMA', 2, 'POINT')}">12,875.00</span></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="row g-2 small text-muted pt-3 border-top">
+          <div class="col-sm-6">
+            <p class="mb-1"><strong>Payment Status:</strong> SIMULATED_PAID</p>
+            <p class="mb-0"><strong>Security Deposit:</strong> Refunded upon vehicle inspection.</p>
+          </div>
+          <div class="col-sm-6 text-sm-end">
+            <p class="mb-1">Authorized System Stamp</p>
+            <strong class="text-dark">DriveGo Automated Dispatch</strong>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div th:replace="~{layout/base :: footer}"></div>
+</body>
+</html>
+

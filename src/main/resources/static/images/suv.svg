@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="100%">
+  <rect width="400" height="240" fill="#f8fafc"/>
+  <defs>
+    <linearGradient id="suvGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(40, 45)">
+    <!-- Tall SUV Body -->
+    <path d="M 30 85 L 60 25 L 210 25 L 265 85 L 315 90 C 320 105 320 125 315 130 L 10 130 C 5 125 5 100 10 90 Z" fill="url(#suvGrad)"/>
+    <path d="M 68 32 L 135 32 L 135 80 L 40 80 Z" fill="#e0f2fe" opacity="0.9"/>
+    <path d="M 145 32 L 205 32 L 250 80 L 145 80 Z" fill="#e0f2fe" opacity="0.9"/>
+    <!-- Big Offroad Wheels -->
+    <circle cx="75" cy="130" r="32" fill="#0f172a"/>
+    <circle cx="75" cy="130" r="16" fill="#94a3b8"/>
+    <circle cx="250" cy="130" r="32" fill="#0f172a"/>
+    <circle cx="250" cy="130" r="16" fill="#94a3b8"/>
+    <!-- Roof Rails -->
+    <line x1="70" y1="18" x2="200" y2="18" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <text x="200" y="215" font-family="'Inter', sans-serif" font-weight="600" font-size="14" fill="#64748b" text-anchor="middle">SUV</text>
+</svg>
+

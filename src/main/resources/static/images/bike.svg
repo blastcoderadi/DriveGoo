@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="bTankGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="40%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="bChromeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="35%" stop-color="#cbd5e1"/>
+      <stop offset="70%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="bGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+    <linearGradient id="bTireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="70%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <filter id="bShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Ground Shadow -->
+  <ellipse cx="300" cy="325" rx="240" ry="16" fill="#000000" opacity="0.25"/>
+
+  <!-- REAR WHEEL -->
+  <g class="rear-wheel" filter="url(#bShadow)">
+    <circle cx="130" cy="240" r="75" fill="url(#bTireGrad)" stroke="#334155" stroke-width="4"/>
+    <circle cx="130" cy="240" r="54" fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="6,4"/>
+    <circle cx="130" cy="240" r="50" fill="#0f172a" stroke="url(#bChromeGrad)" stroke-width="8"/>
+    <circle cx="130" cy="240" r="22" fill="url(#bChromeGrad)" stroke="#475569" stroke-width="2"/>
+    <circle cx="130" cy="240" r="10" fill="#1e293b"/>
+    <path d="M 130 190 L 130 290 M 80 240 L 180 240 M 95 205 L 165 275 M 95 275 L 165 205 M 110 195 L 150 285 M 150 195 L 110 285 M 85 220 L 175 260 M 85 260 L 175 220" stroke="#cbd5e1" stroke-width="1.8" opacity="0.85"/>
+  </g>
+
+  <!-- FRONT WHEEL -->
+  <g class="front-wheel" filter="url(#bShadow)">
+    <circle cx="470" cy="240" r="75" fill="url(#bTireGrad)" stroke="#334155" stroke-width="4"/>
+    <circle cx="470" cy="240" r="54" fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="6,4"/>
+    <circle cx="470" cy="240" r="50" fill="#0f172a" stroke="url(#bChromeGrad)" stroke-width="8"/>
+    <circle cx="470" cy="240" r="22" fill="url(#bChromeGrad)" stroke="#475569" stroke-width="2"/>
+    <circle cx="470" cy="240" r="10" fill="#1e293b"/>
+    <path d="M 470 190 L 470 290 M 420 240 L 520 240 M 435 205 L 505 275 M 435 275 L 505 205 M 450 195 L 490 285 M 490 195 L 450 285 M 425 220 L 515 260 M 425 260 L 515 220" stroke="#cbd5e1" stroke-width="1.8" opacity="0.85"/>
+    <circle cx="470" cy="240" r="32" fill="none" stroke="#94a3b8" stroke-width="5" stroke-dasharray="5,3"/>
+  </g>
+
+  <!-- REAR & FRONT MUDGUARDS -->
+  <path d="M 70 240 C 70 180 115 155 180 160 L 190 185 C 140 180 100 200 95 240 Z" fill="url(#bTankGrad)" stroke="#475569" stroke-width="2"/>
+  <path d="M 80 235 C 80 190 120 170 175 172" stroke="url(#bGoldGrad)" stroke-width="2" fill="none"/>
+
+  <path d="M 405 200 C 425 160 480 160 525 195 L 515 210 C 475 180 435 180 415 215 Z" fill="url(#bTankGrad)" stroke="#475569" stroke-width="2"/>
+  <path d="M 425 195 C 445 175 480 175 510 200" stroke="url(#bGoldGrad)" stroke-width="2" fill="none"/>
+
+  <!-- SWINGARM & SUSPENSION -->
+  <path d="M 130 240 L 250 235 L 260 215 L 140 225 Z" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <g transform="rotate(-25 180 210)">
+    <rect x="165" y="190" width="16" height="70" rx="4" fill="url(#bChromeGrad)"/>
+    <path d="M 165 200 Q 181 205 165 210 Q 181 215 165 220 Q 181 225 165 230 Q 181 235 165 240 Q 181 245 165 250" stroke="#0f172a" stroke-width="4" fill="none"/>
+  </g>
+
+  <!-- CHASSIS -->
+  <path d="M 170 195 L 250 200 L 280 280 L 370 280 L 400 150 L 300 150 L 220 185 Z" fill="#0f172a" stroke="#1e293b" stroke-width="3"/>
+
+  <!-- 350cc ENGINE BLOCK -->
+  <g class="engine">
+    <ellipse cx="295" cy="250" rx="45" ry="32" fill="url(#bChromeGrad)" stroke="#475569" stroke-width="2.5"/>
+    <circle cx="295" cy="250" r="16" fill="#1e293b" stroke="url(#bGoldGrad)" stroke-width="2"/>
+    <text x="295" y="254" font-family="'Inter', sans-serif" font-weight="900" font-size="8" fill="#fde047" text-anchor="middle">RE</text>
+    
+    <path d="M 285 220 L 335 215 L 345 165 L 295 170 Z" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+    <line x1="288" y1="210" x2="338" y2="205" stroke="url(#bChromeGrad)" stroke-width="2.5"/>
+    <line x1="290" y1="200" x2="340" y2="195" stroke="url(#bChromeGrad)" stroke-width="2.5"/>
+    <line x1="292" y1="190" x2="342" y2="185" stroke="url(#bChromeGrad)" stroke-width="2.5"/>
+    <line x1="294" y1="180" x2="344" y2="175" stroke="url(#bChromeGrad)" stroke-width="2.5"/>
+    <line x1="296" y1="170" x2="346" y2="165" stroke="url(#bChromeGrad)" stroke-width="2.5"/>
+    <rect x="305" y="152" width="40" height="14" rx="4" fill="url(#bChromeGrad)" stroke="#475569" stroke-width="1.5"/>
+    <ellipse cx="240" cy="210" rx="18" ry="20" fill="url(#bChromeGrad)" stroke="#334155" stroke-width="2"/>
+  </g>
+
+  <!-- CHROME EXHAUST PIPE -->
+  <g class="exhaust" filter="url(#bShadow)">
+    <path d="M 340 190 C 375 200 370 270 330 275 L 200 275 L 80 275 L 65 270 L 65 285 L 85 285 L 325 285 C 385 285 390 195 345 178 Z" fill="url(#bChromeGrad)" stroke="#64748b" stroke-width="1.5"/>
+    <rect x="180" y="271" width="10" height="18" rx="2" fill="#475569"/>
+    <ellipse cx="65" cy="278" rx="4" ry="7" fill="#0f172a" stroke="url(#bChromeGrad)" stroke-width="1.5"/>
+  </g>
+
+  <!-- FUEL TANK -->
+  <g class="fuel-tank" filter="url(#bShadow)">
+    <path d="M 280 160 C 275 125 310 110 380 115 C 420 118 430 145 425 165 C 410 175 340 180 280 160 Z" fill="url(#bTankGrad)" stroke="#475569" stroke-width="2.5"/>
+    <path d="M 300 130 C 340 120 395 125 415 140" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.4" fill="none"/>
+    <path d="M 295 155 C 300 135 325 125 375 128 C 405 130 415 145 412 158 C 390 168 335 170 295 155 Z" stroke="url(#bGoldGrad)" stroke-width="2" fill="none"/>
+    <path d="M 320 145 C 325 138 345 138 355 142 C 360 152 345 165 330 162 Z" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <ellipse cx="377" cy="147" rx="14" ry="7" fill="url(#bGoldGrad)" stroke="#78350f" stroke-width="1"/>
+    <text x="377" y="150" font-family="'Inter', serif" font-weight="900" font-size="5" fill="#0f172a" text-anchor="middle">ROYAL ENFIELD</text>
+    <ellipse cx="375" cy="116" rx="10" ry="4" fill="url(#bChromeGrad)" stroke="#475569" stroke-width="1.5"/>
+  </g>
+
+  <!-- CRUISER SEATS -->
+  <g class="seats" filter="url(#bShadow)">
+    <path d="M 215 170 C 220 150 250 148 290 160 C 275 180 230 188 215 170 Z" fill="#18181b" stroke="#09090b" stroke-width="2"/>
+    <path d="M 155 172 C 160 160 190 158 210 165 C 208 178 170 182 155 172 Z" fill="#18181b" stroke="#09090b" stroke-width="2"/>
+    <path d="M 135 180 L 155 165 L 175 165" stroke="url(#bChromeGrad)" stroke-width="4" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- FORKS & HANDLEBARS -->
+  <g class="forks-bars" filter="url(#bShadow)">
+    <path d="M 405 130 L 465 240 M 415 125 L 475 235" stroke="url(#bChromeGrad)" stroke-width="7" stroke-linecap="round"/>
+    <path d="M 400 120 C 400 105 425 105 435 120 L 420 135 Z" fill="url(#bTankGrad)" stroke="#475569" stroke-width="2"/>
+    <path d="M 370 100 Q 405 105 415 118" stroke="url(#bChromeGrad)" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M 380 98 L 385 75" stroke="url(#bChromeGrad)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <circle cx="385" cy="72" r="9" fill="url(#bChromeGrad)" stroke="#475569" stroke-width="1.5"/>
+    <path d="M 430 115 C 445 115 455 125 455 135 C 455 145 445 155 430 155 Z" fill="#0f172a" stroke="url(#bChromeGrad)" stroke-width="3"/>
+    <path d="M 432 114 Q 452 112 458 122" stroke="url(#bChromeGrad)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>
