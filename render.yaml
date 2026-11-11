@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: drivego
+    runtime: docker
+    plan: free
+    branch: main
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: dev
+      - key: PORT
+        value: 8080
